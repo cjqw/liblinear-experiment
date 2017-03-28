@@ -1,0 +1,4 @@
+doc/
+src/data/
+*.tex
+*.model
