@@ -1,6 +1,6 @@
 #!env /usr/bin/python3
 
-from core.readData import read_data
+from tools.readData import read_data
 from core.brute import runBruteTest
 from settings import *
 

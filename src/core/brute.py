@@ -1,5 +1,5 @@
-from tools.util import *
-from core.util import *
+from tools.tools import *
+from utils.util import *
 
 def getlabel(x):
     label = x[0][0]
