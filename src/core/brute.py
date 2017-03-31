@@ -9,7 +9,7 @@ def getlabel(x):
         return -1
 
 def runBruteTest(data,test):
-    print("Begin to run brute algorithm...")
+    print("Begin to get brute model...")
     y = mapv(getlabel,data)
     x = mapv(lambda x: x[1],data)
     m = getModel(y, x, '-c 4')
