@@ -13,8 +13,8 @@ def parse_param(param):
     return m
 
 def parse_label(labels):
+    """To be finished."""
     return mapv(identity,labels.split(','))
-
 
 def calc_sign(m):
     label = m["label"][0]
