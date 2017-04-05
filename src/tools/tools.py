@@ -2,7 +2,9 @@ from liblinearutil import *
 from settings import *
 from utils.util import *
 
-def getModel(y,x,cmd,name = "MODEL"):
+def getModel(data,cmd,name = "MODEL"):
+    y = mapv(lambda x: x["sign"],data)
+    x = mapv(lambda x: x["param"],data)
     with cd(MODEL_PATH):
         model = load_model(name)
         if model == None:
@@ -10,5 +12,7 @@ def getModel(y,x,cmd,name = "MODEL"):
             save_model(name,model)
     return model
 
-def predictResult(y,x,model):
+def predictResult(data ,model):
+    y = mapv(lambda x: x["sign"],data)
+    x = mapv(lambda x: x["param"],data)
     return predict(y,x,model)
