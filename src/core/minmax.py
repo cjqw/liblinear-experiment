@@ -27,16 +27,32 @@ def getMinMaxModels(data,partitionFunction,nameFunc):
         for j in neg:
             y = neg[j]
             (models[i]).update(
-                {j : getModel(x + y,'-c 4',nameFunc(i,j))})
+                {j : getModel(x + y,'-c 4',nameFunc(i,j), memorize = False)})
     return models
 
-def predict(test,models):
-    pass
+def minMaxLayer(f,m):
+    result = []
+    for key in m:
+        label = m[key]["label"]
+        if len(result) == 0:
+            result = label
+        else:
+            result = mapv(f,result,label)
+    return {"label" : result}
+
+def equal(x,y):
+    return float(x)*float(y) > 0
+
+def minMaxPredictResult(test,models):
+    result = mapValue(partial(mapValue,partial(predictResult,test)),models)
+    result = mapValue(partial(minMaxLayer,min),result)
+    result = minMaxLayer(max,result)
+    acc = reduce(add,map(equal,result["label"],map(getValue("sign"),test)))
+    result.update({"acc": acc * 100 / len(test)})
+    return result
 
 def runMinMaxTest(data,test):
     print('Begin to get min-max model...')
     models = getMinMaxModels(data,getRandClass,modelNameFunc('MinMax'))
     print('Begin to test min-max algorithm...')
-    # p_label, p_acc, p_val = predictResult(test, models)
-    # return {"label":p_label,
-    #         "acc":p_acc}
+    return minMaxPredictResult(test, models)
