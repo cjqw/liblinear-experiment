@@ -1,0 +1,17 @@
+* liblinear-experiment
+This repo is the project of mpml, aiming to solve a
+two-class classification problem using liblinear in multi-kernal
+machines.
+
+The min-max network is used to decompose the task so that it can be
+fully parallelized. I will campare the performance between randomized
+partition and label-based partition.
+* TODO
+** DONE Using liblinear to solve the origin problem
+** DONE Using min-max network to solve the same problem
+** Parallelize the min-max network
+** Partition data by labels
+** Measure the time cost in different solution
+** Compare the performance between different solution
+** Enhance the IO of data files (json needs additional parser)
+** Avoid reading data file for multiple times

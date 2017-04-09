@@ -2,3 +2,6 @@ doc/
 src/data/
 *.tex
 *.model
+*.pyc
+MODEL
+*.model
