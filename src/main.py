@@ -12,6 +12,6 @@ if __name__ == '__main__':
 
     data = read_data(TRAIN_DATA_SET)
     test = read_data(TEST_DATA_SET)
-    res = runBruteTest(data,test)
-    # res = runMinMaxTest(data,test)
+    # res = runBruteTest(data,test)
+    res = runMinMaxTest(data,test)
     print(res["acc"])

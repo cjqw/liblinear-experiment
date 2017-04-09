@@ -22,3 +22,7 @@ def predictResult(data ,model):
     return{"label" : p_label,
            "acc" : p_acc[0],
            "val" : p_val}
+
+def loadModel(name):
+    with cd(MODEL_PATH):
+        return load_model(name)
