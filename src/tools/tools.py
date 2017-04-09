@@ -5,16 +5,16 @@ from utils.util import *
 def getModel(data,cmd,name = "MODEL"):
     y = mapv(getValue("sign"),data)
     x = mapv(getValue("param"),data)
+    model = None
+    if MEMORIZE:
+        with cd(MODEL_PATH): model = load_model(name)
 
-    if not MEMORIZE:
+    if model == None:
         model = train(y,x,cmd)
-    else:
-        with cd(MODEL_PATH):
-            model = load_model(name)
-            if model == None:
-                model = train(y,x,cmd)
 
-    save_model(name,model)
+    with cd(MODEL_PATH):
+        save_model(name,model)
+
     return model
 
 def predictResult(data ,model):
