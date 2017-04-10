@@ -6,9 +6,11 @@ machines.
 The min-max network is used to decompose the task so that it can be
 fully parallelized. I will campare the performance between randomized
 partition and label-based partition.
+
 * Todo
 - [x] Using liblinear to solve the origin problem
 - [x] Using min-max network to solve the same problem
+- [x] Using pickle to dump/load data
 - Parallelize the min-max network
 - Partition data by labels
 - Measure the time cost in different solution
