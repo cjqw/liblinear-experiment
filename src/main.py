@@ -4,6 +4,7 @@ from tools.readData import read_data
 from tools.parseData import parse_data
 from core.brute import runBruteTest
 from core.minmax import runMinMaxTest
+from core.multiProc import runMultiProcessMinMaxTest
 from settings import *
 
 if __name__ == '__main__':
@@ -13,5 +14,6 @@ if __name__ == '__main__':
     data = read_data(TRAIN_DATA_SET)
     test = read_data(TEST_DATA_SET)
     # res = runBruteTest(data,test)
-    res = runMinMaxTest(data,test)
+    # res = runMinMaxTest(data,test)
+    res = runMultiProcessMinMaxTest(data,test)
     print(res["acc"])
