@@ -1,6 +1,7 @@
 from tools.tools import *
 from utils.util import *
 from random import randint
+from tools.readData import read_data
 
 def getRandClass(m):
     return randint(1,MAX_CLASS) - 1
@@ -57,6 +58,9 @@ def minMaxPredictResult(test,models):
     return result
 
 def runMinMaxTest(data,test):
+    data = read_data(TRAIN_DATA_SET)
+    test = read_data(TEST_DATA_SET)
+
     print('Begin to get min-max model...')
     pos,neg = partitionData(data,getRandClass)
     models = getMinMaxModels(pos,
