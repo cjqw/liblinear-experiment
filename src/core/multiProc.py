@@ -4,7 +4,6 @@ from core.minmax import *
 from multiprocessing import Pool
 import tools.dataIO as IO
 from tools.readData import read_data
-from functools import partial
 
 def store2File(m, name):
     for key in m:
@@ -12,22 +11,41 @@ def store2File(m, name):
         m[key] = None
     return m
 
-def calcModel(x,neg,names):
-    print('START')
-    for j in neg:
-        y = IO.read_data('TMP' + str(j) + 'NEG')
-        getModel(x + y, '-c 4', names[j])
-    print('OK')
+def calcModel(i,j,fileName):
+    print('START',str(i),str(j))
+    x = IO.read_data('TMP' + str(i) + 'POS')
+    y = IO.read_data('TMP' + str(j) + 'NEG')
+    getModel(x + y, '-c 4', fileName)
 
 def multiProcessTrainFunc(pos,neg,nameFunc):
     p = Pool()
     for i in pos:
-        x = IO.read_data('TMP' + str(i) + 'POS')
-        names = {}
-        for j in neg: names.update({j:nameFunc(i,j)})
-        p.apply_async(calcModel,args = (x,neg,names))
+        for j in neg:
+            p.apply_async(calcModel, args = (i,j,nameFunc(i,j)))
     p.close()
     p.join()
+
+def multiProcessPredictResult(model,i,j):
+    print ('START')
+    test = read_data(TEST_DATA_SET)
+    res = predictResult(test,model)
+    IO.save_data(res,str(i) + '|' + str(j) + '.result')
+
+def multiProcessGetResult(models):
+    p = Pool()
+    for i in models:
+        for j in models[i]:
+            m = models[i][j]
+            p.apply_async(multiProcessPredictResult,
+                    args = (m,i,j))
+    p.close()
+    p.join()
+    result = mapValue(partial(mapValue,constant(None)),
+                      models)
+    for i in result:
+        for j in result[i]:
+            result[i][j] = IO.read_data(str(i) + '|' + str(j) + '.result')
+    return result
 
 def runMultiProcessMinMaxTest():
     data = read_data(TRAIN_DATA_SET)
@@ -41,7 +59,8 @@ def runMultiProcessMinMaxTest():
                              neg,
                              modelNameFunc('MultiProcessMinMax'),
                              multiProcessTrainFunc)
-    return None
+
     print('Begin to test multi-process min-max algorithm...')
+    res = multiProcessGetResult(models)
     test = read_data(TEST_DATA_SET)
-    return minMaxPredictResult(test, models)
+    return minMaxPredictResult(test,res)
