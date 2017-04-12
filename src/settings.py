@@ -14,7 +14,7 @@ TRAIN_DATA = 0
 
 # Maximum class when training Min-Max models with
 # randomized partition function
-MAX_CLASS = 1
+MAX_CLASS = 5
 
 # Whether trust the post models or not
 MEMORIZE = False

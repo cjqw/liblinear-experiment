@@ -24,11 +24,8 @@ def bruteTrainFunc(pos,neg,nameFunc):
         for j in neg:
             getModel(pos[i]+neg[j],'-c 4',nameFunc(i,j))
 
-def getMinMaxModels(data,partitionFunc,nameFunc,trainFunc):
-    pos,neg = partitionData(data,partitionFunc)
-
+def getMinMaxModels(pos,neg,nameFunc,trainFunc):
     trainFunc(pos,neg,nameFunc)
-
     models = {}
     for i in pos:
         models.update( {i : {}} )
@@ -61,8 +58,9 @@ def minMaxPredictResult(test,models):
 
 def runMinMaxTest(data,test):
     print('Begin to get min-max model...')
-    models = getMinMaxModels(data,
-                             getRandClass,
+    pos,neg = partitionData(data,getRandClass)
+    models = getMinMaxModels(pos,
+                             neg,
                              modelNameFunc('MinMax'),
                              bruteTrainFunc)
     print('Begin to test min-max algorithm...')

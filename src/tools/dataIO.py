@@ -3,6 +3,7 @@ from settings import *
 import pickle
 
 def save_data(data,fileName):
+    '''TODO add MEMORIZE logic'''
     with open(DATA_PATH + fileName + '.pickle', 'wb') as fout:
         pickle.dump(data,fout)
 

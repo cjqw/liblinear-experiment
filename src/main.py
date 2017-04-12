@@ -1,4 +1,6 @@
 #!env /usr/bin/python3
+# POS NEG
+# 27876 85252
 
 from tools.readData import read_data
 from tools.parseData import parse_data
