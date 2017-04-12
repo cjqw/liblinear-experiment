@@ -2,7 +2,7 @@ from tools.tools import *
 from utils.util import *
 from tools.readData import read_data
 
-def runBruteTest(data,test):
+def runBruteTest():
     data = read_data(TRAIN_DATA_SET)
     test = read_data(TEST_DATA_SET)
     print("Begin to get brute model...")

@@ -57,7 +57,7 @@ def minMaxPredictResult(test,models):
     result.update({"acc": acc * 100 / len(test)})
     return result
 
-def runMinMaxTest(data,test):
+def runMinMaxTest():
     data = read_data(TRAIN_DATA_SET)
     test = read_data(TEST_DATA_SET)
 

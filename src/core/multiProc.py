@@ -4,23 +4,28 @@ from core.minmax import *
 from multiprocessing import Pool
 import tools.dataIO as IO
 from tools.readData import read_data
+from functools import partial
 
-def store2File(key,value,add = ''):
-    IO.save_data(value,'TMP' + str(key) + add)
+def store2File(m, name):
+    for key in m:
+        IO.save_data(m[key],'TMP' + str(key) + name)
+        m[key] = None
+    return m
 
-def calcModel(i,j,fileName):
-    print('START',str(i),str(j))
-    y = IO.read_data('TMP' + str(j))
-    x = IO.read_data('TMP' + str(i) + 'pos')
-    getModel(x + y, '-c 4', fileName)
+def calcModel(x,neg,names):
+    print('START')
+    for j in neg:
+        y = IO.read_data('TMP' + str(j) + 'NEG')
+        getModel(x + y, '-c 4', names[j])
     print('OK')
 
 def multiProcessTrainFunc(pos,neg,nameFunc):
     p = Pool()
     for i in pos:
-        for j in neg:
-            print(i,j)
-            p.apply_async(calcModel, args = (i,j,nameFunc(i,j)))
+        x = IO.read_data('TMP' + str(i) + 'POS')
+        names = {}
+        for j in neg: names.update({j:nameFunc(i,j)})
+        p.apply_async(calcModel,args = (x,neg,names))
     p.close()
     p.join()
 
@@ -28,18 +33,15 @@ def runMultiProcessMinMaxTest():
     data = read_data(TRAIN_DATA_SET)
     print('Begin to get multi-process min-max model...')
     pos,neg = partitionData(data,getRandClass)
-    for key in neg:
-        store2File(key,neg[key])
-        neg[key] = None
-    for key in pos:
-        store2File(key,pos[key],'pos')
-        pos[key] = None
+    neg = store2File(neg,'NEG')
+    pos = store2File(pos,'POS')
     data = None
+
     models = getMinMaxModels(pos,
                              neg,
                              modelNameFunc('MultiProcessMinMax'),
                              multiProcessTrainFunc)
+    return None
     print('Begin to test multi-process min-max algorithm...')
-
     test = read_data(TEST_DATA_SET)
     return minMaxPredictResult(test, models)
