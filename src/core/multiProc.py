@@ -18,7 +18,6 @@ def store2File(m, nameFunc):
     return m
 
 def calcModel(i,j,fileName):
-    print('START',i,j)
     x = IO.read_data(MPPOSName(i))
     y = IO.read_data(MPNEGName(j))
     getModel(x + y, '-c 4', fileName)
@@ -32,24 +31,21 @@ def multiProcessTrainFunc(pos,neg,nameFunc):
     p.join()
 
 def multiProcessPredictResult(i,j):
-    print ('BEGIN',i,j)
     test = read_data(TEST_DATA_SET)
     model = loadModel(MPModelName(i,j))
     res = predictResult(test,model)
     IO.save_data(res,MPResultName(i,j))
-    print('END')
 
 def multiProcessGetResult(pos,neg):
-    p = Pool(4)
-    result = {}
+    p = Pool()
     for i in pos:
-        result.update({i:{}})
         for j in neg:
-            result[i].update({j:None})
             p.apply_async(multiProcessPredictResult,
                     args = (i,j))
     p.close()
     p.join()
+
+    result = mapValue(constant(neg),pos)
     for i in result:
         for j in result[i]:
             result[i][j] = IO.read_data(MPResultName(i,j))
