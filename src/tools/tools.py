@@ -2,11 +2,11 @@ from liblinearutil import *
 from settings import *
 from utils.util import *
 
-def getModel(data,cmd,name = "MODEL"):
+def getModel(data,cmd,name = "MODEL",mem = MEMORIZE):
     y = mapv(getValue("sign"),data)
     x = mapv(getValue("param"),data)
     model = None
-    if MEMORIZE:
+    if mem:
         with cd(MODEL_PATH): model = load_model(name)
 
     if model == None:

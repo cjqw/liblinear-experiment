@@ -5,6 +5,8 @@ from multiprocessing import Pool
 import tools.dataIO as IO
 from tools.readData import read_data
 
+MPModelName = modelNameFunc('MultiProcessMinMax')
+
 def store2File(m, name):
     for key in m:
         IO.save_data(m[key],'TMP' + str(key) + name)
@@ -25,23 +27,25 @@ def multiProcessTrainFunc(pos,neg,nameFunc):
     p.close()
     p.join()
 
-def multiProcessPredictResult(model,i,j):
-    print ('START')
+def multiProcessPredictResult(i,j):
+    print ('BEGIN',i,j)
     test = read_data(TEST_DATA_SET)
+    model = getModel([{'sign':None , 'param':None}],
+                     '',MPModelName(i,j))
     res = predictResult(test,model)
     IO.save_data(res,str(i) + '|' + str(j) + '.result')
 
-def multiProcessGetResult(models):
+def multiProcessGetResult(pos,neg):
     p = Pool()
-    for i in models:
-        for j in models[i]:
-            m = models[i][j]
+    result = {}
+    for i in pos:
+        result.update({i:{}})
+        for j in neg:
+            result[i].update({j:None})
             p.apply_async(multiProcessPredictResult,
-                    args = (m,i,j))
+                    args = (i,j))
     p.close()
     p.join()
-    result = mapValue(partial(mapValue,constant(None)),
-                      models)
     for i in result:
         for j in result[i]:
             result[i][j] = IO.read_data(str(i) + '|' + str(j) + '.result')
@@ -57,10 +61,11 @@ def runMultiProcessMinMaxTest():
 
     models = getMinMaxModels(pos,
                              neg,
-                             modelNameFunc('MultiProcessMinMax'),
+                             MPModelName,
                              multiProcessTrainFunc)
 
     print('Begin to test multi-process min-max algorithm...')
-    res = multiProcessGetResult(models)
+
+    res = multiProcessGetResult(pos,neg)
     test = read_data(TEST_DATA_SET)
     return minMaxPredictResult(test,res)
