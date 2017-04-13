@@ -6,10 +6,13 @@ from tools.readData import read_data
 def getRandClass(m):
     return randint(1,MAX_CLASS) - 1
 
-def modelNameFunc(Name):
-    def modelNameFunction(i,j):
-        return Name + '[' + str(i) + ']-[' + str(j) + '].model'
-    return modelNameFunction
+def metaNameFunc(name,suffix):
+    def metaNameFunction(i,j = None):
+        if j != None:
+            return name + '[' + str(i) + ']-[' + str(j) + '].' + suffix
+        else:
+            return name + '[' + str(i) + '].' + suffix
+    return metaNameFunction
 
 def partitionData(data,partitionFunc):
     # partition data set by sign
@@ -65,7 +68,7 @@ def runMinMaxTest():
     pos,neg = partitionData(data,getRandClass)
     models = getMinMaxModels(pos,
                              neg,
-                             modelNameFunc('MinMax'),
+                             metaNameFunc('MinMax','model'),
                              bruteTrainFunc)
     print('Begin to test min-max algorithm...')
     return minMaxPredictResult(
