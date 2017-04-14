@@ -1,4 +1,5 @@
 from tools.tools import *
+from tools.partition import *
 from utils.util import *
 from core.minmax import *
 from multiprocessing import Pool
@@ -10,6 +11,8 @@ MPModelName = metaNameFunc('MultiProcessMinMax','model')
 MPPOSName = metaNameFunc('MultiProcessMinMax','POS')
 MPNEGName = metaNameFunc('MultiProcessMinMax','NEG')
 MPResultName = metaNameFunc('MultiProcessMinMax','result')
+partitionFunc = getRandClass
+partitionFunc = partitionByFirstLabel
 test_set = None
 neg = None
 pos = None
@@ -30,23 +33,25 @@ def multiProcessTrainFunc(pos,neg,nameFunc):
     with Pool() as p:
         p.map(calcModel,params)
 
-def multiProcessPredictResult(posLabel):
-    global test_set,neg
-    result = sequence(len(test_set),constant(1))
-    for negLabel in neg:
-        model = loadModel(MPModelName(posLabel,negLabel))
-        result = mapv(min,result,predictResult(test_set,model)["label"])
-    IO.save_data(result,MPResultName(posLabel))
+def multiProcessPredictResult(param):
+    global test_set
+    posLabel,negLabel = param
+    model = loadModel(MPModelName(posLabel,negLabel))
+    result = predictResult(test_set,model)["label"]
+    IO.save_data(result,MPResultName(posLabel,negLabel))
 
 def multiProcessGetResult():
     global test_set,pos,neg
-    params = [posLabel for posLabel in pos]
+    params = [[i,j] for i in pos for j in neg]
     with Pool() as p:
         p.map(multiProcessPredictResult,params)
 
     result = sequence(len(test_set),constant(-1))
     for i in pos:
-        result = mapv(max,result,IO.read_data(MPResultName(i)))
+        tmp = sequence(len(test_set),constant(1))
+        for j in neg:
+            tmp = mapv(min,tmp,IO.read_data(MPResultName(i,j)))
+        result = mapv(max,result,tmp)
 
     acc = reduce(add,
                  map(equal,result,map(getValue("sign"),test_set)))
@@ -61,10 +66,9 @@ def runMultiProcessMinMaxTest():
     global test_set,pos,neg
     data = read_data(TRAIN_DATA_SET)
     print('Begin to get multi-process min-max model...')
-    pos,neg = partitionData(data,getRandClass)
+    pos,neg = partitionData(data,partitionFunc)
     neg = store2File(neg,MPNEGName)
     pos = store2File(pos,MPPOSName)
-    models = mapValue(constant(neg),pos)
     data = None
 
     getMinMaxModels(pos,neg,MPModelName,multiProcessTrainFunc)

@@ -1,10 +1,8 @@
 from tools.tools import *
+from tools.partition import *
 from utils.util import *
 from random import randint
 from tools.readData import read_data
-
-def getRandClass(m):
-    return randint(1,MAX_CLASS) - 1
 
 def metaNameFunc(name,suffix):
     def metaNameFunction(i,j = None):
