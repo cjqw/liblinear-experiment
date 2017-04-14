@@ -11,9 +11,11 @@ partition and label-based partition.
 - [x] Using liblinear to solve the origin problem
 - [x] Using min-max network to solve the same problem
 - [x] Using pickle to dump/load data
-- Parallelize the min-max network
+- [x] Parallelize the min-max network
 - Partition data by labels
 - Measure the time cost in different solution
 - Compare the performance between different solution
-- Enhance the IO of data files (json needs additional parser)
-- Avoid reading data file for multiple times
+- [x] using dump/load in data file IO
+- [x] Avoid reading data file for multiple times
+- use DBMS to manage data
+- use queue to exchange data between processes

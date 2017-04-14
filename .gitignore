@@ -1,5 +1,6 @@
 doc/
 src/data/
+src/cpp/
 *.tex
 *.model
 *.pyc

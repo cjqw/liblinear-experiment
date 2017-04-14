@@ -12,6 +12,7 @@ MPNEGName = metaNameFunc('MultiProcessMinMax','NEG')
 MPResultName = metaNameFunc('MultiProcessMinMax','result')
 test_set = None
 neg = None
+pos = None
 
 def store2File(m, nameFunc):
     for key in m:
@@ -30,15 +31,15 @@ def multiProcessTrainFunc(pos,neg,nameFunc):
         p.map(calcModel,params)
 
 def multiProcessPredictResult(posLabel):
-    global test_set
+    global test_set,neg
     result = sequence(len(test_set),constant(1))
     for negLabel in neg:
         model = loadModel(MPModelName(posLabel,negLabel))
         result = mapv(min,result,predictResult(test_set,model)["label"])
     IO.save_data(result,MPResultName(posLabel))
 
-def multiProcessGetResult(pos,neg):
-    global test_set
+def multiProcessGetResult():
+    global test_set,pos,neg
     params = [posLabel for posLabel in pos]
     with Pool() as p:
         p.map(multiProcessPredictResult,params)
@@ -57,7 +58,7 @@ def multiProcessGetResult(pos,neg):
 
 
 def runMultiProcessMinMaxTest():
-    global test_set,neg
+    global test_set,pos,neg
     data = read_data(TRAIN_DATA_SET)
     print('Begin to get multi-process min-max model...')
     pos,neg = partitionData(data,getRandClass)
@@ -66,11 +67,8 @@ def runMultiProcessMinMaxTest():
     models = mapValue(constant(neg),pos)
     data = None
 
-    models = getMinMaxModels(pos,
-                             neg,
-                             MPModelName,
-                             multiProcessTrainFunc)
+    getMinMaxModels(pos,neg,MPModelName,multiProcessTrainFunc)
     print('Begin to test multi-process min-max algorithm...')
     test_set = read_data(TEST_DATA_SET)
-    result = multiProcessGetResult(pos,neg)
+    result = multiProcessGetResult()
     return result

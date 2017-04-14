@@ -17,4 +17,4 @@ TRAIN_DATA = 0
 MAX_CLASS = 4
 
 # Whether trust the post models or not
-MEMORIZE = True
+MEMORIZE = False
