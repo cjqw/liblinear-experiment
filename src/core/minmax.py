@@ -52,7 +52,8 @@ def minMaxLayer(f,m):
 def equal(x,y):
     return float(x) * float(y) > 0
 
-def minMaxPredictResult(test,result):
+def minMaxPredictResult(test,models):
+    result = mapValue(partial(mapValue,partial(predictResult,test)),models)
     result = mapValue(partial(minMaxLayer,min),result)
     result = minMaxLayer(max,result)
     acc = reduce(add,
@@ -71,7 +72,4 @@ def runMinMaxTest():
                              metaNameFunc('MinMax','model'),
                              bruteTrainFunc)
     print('Begin to test min-max algorithm...')
-    return minMaxPredictResult(
-        test,
-        mapValue(partial(mapValue,partial(predictResult,test)),
-                 models))
+    return minMaxPredictResult(test,models)
