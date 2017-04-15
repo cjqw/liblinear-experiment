@@ -24,7 +24,7 @@ def partitionData(data,partitionFunc):
 def bruteTrainFunc(pos,neg,nameFunc):
     for i in pos:
         for j in neg:
-            getModel(pos[i]+neg[j],'-c 4',nameFunc(i,j))
+            getModel(pos[i]+neg[j],nameFunc(i,j))
 
 def getMinMaxModels(pos,neg,nameFunc,trainFunc):
     trainFunc(pos,neg,nameFunc)

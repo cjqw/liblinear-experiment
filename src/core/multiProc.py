@@ -11,8 +11,7 @@ MPModelName = metaNameFunc('MultiProcessMinMax','model')
 MPPOSName = metaNameFunc('MultiProcessMinMax','POS')
 MPNEGName = metaNameFunc('MultiProcessMinMax','NEG')
 MPResultName = metaNameFunc('MultiProcessMinMax','result')
-# partitionFunc = partitionByMiddleNumber
-partitionFunc = partitionByLastLetter
+partitionFunc = getFirstTwoLetter
 test_set = None
 neg = None
 pos = None
@@ -26,7 +25,7 @@ def calcModel(param):
     i,j,fileName = param
     x = IO.read_data(MPPOSName(i))
     y = IO.read_data(MPNEGName(j))
-    getModel(x + y, '-c 4', fileName)
+    getModel(x + y, fileName)
 
 def multiProcessTrainFunc(pos,neg,nameFunc):
     params = [[i,j,nameFunc(i,j)] for j in neg for i in pos]
@@ -37,8 +36,8 @@ def multiProcessPredictResult(param):
     global test_set
     posLabel,negLabel = param
     model = loadModel(MPModelName(posLabel,negLabel))
-    result = predictResult(test_set,model)["label"]
-    IO.save_data(result,MPResultName(posLabel,negLabel))
+    result = predictResult(test_set,model)
+    IO.save_data(result["label"],MPResultName(posLabel,negLabel))
 
 def multiProcessGetResult():
     global test_set,pos,neg
@@ -71,7 +70,6 @@ def runMultiProcessMinMaxTest():
     neg = store2File(neg,MPNEGName)
     pos = store2File(pos,MPPOSName)
     data = None
-
     # print(len(pos),len(neg))
     # return
 

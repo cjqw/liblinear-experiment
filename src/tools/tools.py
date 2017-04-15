@@ -2,7 +2,7 @@ from liblinearutil import *
 from settings import *
 from utils.util import *
 
-def getModel(data,cmd,name = "MODEL",mem = MEMORIZE):
+def getModel(data,name = "MODEL",cmd = "-c 4",mem = MEMORIZE):
     y = mapv(getValue("sign"),data)
     x = mapv(getValue("param"),data)
     model = None
