@@ -11,8 +11,8 @@ MPModelName = metaNameFunc('MultiProcessMinMax','model')
 MPPOSName = metaNameFunc('MultiProcessMinMax','POS')
 MPNEGName = metaNameFunc('MultiProcessMinMax','NEG')
 MPResultName = metaNameFunc('MultiProcessMinMax','result')
-partitionFunc = getRandClass
-partitionFunc = partitionByFirstLabel
+# partitionFunc = partitionByMiddleNumber
+partitionFunc = partitionByLastLetter
 test_set = None
 neg = None
 pos = None
@@ -67,9 +67,13 @@ def runMultiProcessMinMaxTest():
     data = read_data(TRAIN_DATA_SET)
     print('Begin to get multi-process min-max model...')
     pos,neg = partitionData(data,partitionFunc)
+    # for i in pos:print(i)
     neg = store2File(neg,MPNEGName)
     pos = store2File(pos,MPPOSName)
     data = None
+
+    # print(len(pos),len(neg))
+    # return
 
     getMinMaxModels(pos,neg,MPModelName,multiProcessTrainFunc)
     print('Begin to test multi-process min-max algorithm...')
