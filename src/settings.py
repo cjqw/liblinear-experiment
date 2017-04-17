@@ -1,3 +1,5 @@
+from tools.partition import *
+
 # The file name of trainning data
 TRAIN_DATA_SET = 'train.txt'
 # The file name of test data
@@ -18,3 +20,5 @@ MAX_CLASS = 4
 
 # Whether trust the post models or not
 MEMORIZE = False
+
+PARTITION_FUNCTION = getFirstLetter

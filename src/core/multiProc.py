@@ -1,5 +1,4 @@
 from tools.tools import *
-from tools.partition import *
 from utils.util import *
 from core.minmax import *
 from multiprocessing import Pool
@@ -66,12 +65,9 @@ def runMultiProcessMinMaxTest():
     data = read_data(TRAIN_DATA_SET)
     print('Begin to get multi-process min-max model...')
     pos,neg = partitionData(data,partitionFunc)
-    # for i in pos:print(i)
     neg = store2File(neg,MPNEGName)
     pos = store2File(pos,MPPOSName)
     data = None
-    # print(len(pos),len(neg))
-    # return
 
     getMinMaxModels(pos,neg,MPModelName,multiProcessTrainFunc)
     print('Begin to test multi-process min-max algorithm...')
