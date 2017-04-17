@@ -14,9 +14,10 @@ partition and label-based partition.
 - [x] Parallelize the min-max network
 - [x] Partition data by labels
 - Measure the time cost in different solution
-- Compare the performance between different solution
+- [x] calculate f1 value
+- draw ROC graph
 - [x] using dump/load in data file IO
 - [x] Avoid reading data file for multiple times
 - use DBMS to manage data
-- use queue to exchange data between processes
+- [d] use queue to exchange data between processes
 - use logging module

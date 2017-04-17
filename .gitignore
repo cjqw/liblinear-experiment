@@ -1,6 +1,6 @@
 doc/
 src/data/
-*.tex
+ols*.tex
 *.model
 *.pyc
 MODEL
