@@ -1,6 +1,6 @@
 from tools.tools import *
 from utils.util import *
-from tools.readData import read_data
+from tools.dataIO import read_data
 
 def runBruteTest():
     data_set = read_data(TRAIN_DATA_SET)

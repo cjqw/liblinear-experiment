@@ -2,13 +2,11 @@ from tools.tools import *
 from tools.partition import *
 from utils.util import *
 from random import randint
-from tools.readData import read_data
+import tools.dataIO as IO
 
 def partitionData(data,partitionFunc):
-    # partition data set by sign
     m = partition(data,getValue("sign"))
     pos,neg = m[1],m[-1]
-    # partition each data set via partitionFunc
     pos = partition(pos,partitionFunc)
     neg = partition(neg,partitionFunc)
     return pos,neg
@@ -25,7 +23,7 @@ def getMinMaxModels(pos,neg,nameFunc,trainFunc):
         models.update( {i : {}} )
         for j in neg:
             models[i].update(
-                {j : loadModel(nameFunc(i,j))}
+                {j : IO.loadModel(nameFunc(i,j))}
             )
     return models
 
@@ -43,8 +41,8 @@ def minMaxPredictResult(test_set,models):
 
 
 def runMinMaxTest():
-    data = read_data(TRAIN_DATA_SET)
-    test = read_data(TEST_DATA_SET)
+    data = IO.read_data(TRAIN_DATA_SET)
+    test = IO.read_data(TEST_DATA_SET)
 
     print('Begin to get min-max model...')
     pos,neg = partitionData(data,PARTITION_FUNCTION)

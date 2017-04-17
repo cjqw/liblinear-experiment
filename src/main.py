@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-# POS NEG
-# 27876 85252
-
 
 from tools.parseData import parse_data
 from settings import *

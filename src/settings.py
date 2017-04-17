@@ -16,13 +16,13 @@ TRAIN_DATA = 0
 
 # Maximum class when training Min-Max models with
 # randomized partition function
-MAX_CLASS = 4
+MAX_CLASS = 3
 
 # Whether trust the post models or not
 MEMORIZE = False
 
 # which partition function to use
-PARTITION_FUNCTION = getFirstTwoLetter
+PARTITION_FUNCTION = getRandClassFunc(MAX_CLASS)
 
 # which algorithm to use
 # 1: brute linear svm classifier
