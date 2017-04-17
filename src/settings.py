@@ -19,6 +19,18 @@ TRAIN_DATA = 0
 MAX_CLASS = 4
 
 # Whether trust the post models or not
-MEMORIZE = True
+MEMORIZE = False
 
-PARTITION_FUNCTION = getRandClassFunc(MAX_CLASS)
+# which partition function to use
+PARTITION_FUNCTION = getFirstTwoLetter
+
+# which algorithm to use
+# 1: brute linear svm classifier
+# 2: min-max algorithm
+# 3: parallelized min-max algorithm
+
+BRUTE_ALGORITHM = 1
+MIN_MAX_ALGORITHM = 2
+PARALLELIZED_MIN_MAX = 3
+
+ALGORITHM = PARALLELIZED_MIN_MAX

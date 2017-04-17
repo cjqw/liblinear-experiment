@@ -14,7 +14,7 @@ test_set = None
 neg = None
 pos = None
 
-def calcModel(param):
+def multiProcessCalcModel(param):
     i,j,fileName = param
     x = IO.read_data(MPPOSName(i))
     y = IO.read_data(MPNEGName(j))
@@ -23,7 +23,7 @@ def calcModel(param):
 def multiProcessTrainFunc(pos,neg,nameFunc):
     params = [[i,j,nameFunc(i,j)] for j in neg for i in pos]
     with Pool() as p:
-        p.map(calcModel,params)
+        p.map(multiProcessCalcModel,params)
 
 def multiProcessPredictResult(param):
     global test_set

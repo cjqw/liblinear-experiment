@@ -14,5 +14,5 @@ def read_data(fileName):
 
 def store2File(m, nameFunc):
     for key in m:
-        IO.save_data(m[key], nameFunc(key))
+        save_data(m[key], nameFunc(key))
     return mapValue(constant(None),m)
