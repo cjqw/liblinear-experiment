@@ -21,4 +21,4 @@ MAX_CLASS = 2
 # Whether trust the post models or not
 MEMORIZE = True
 
-PARTITION_FUNCTION = getFirstLetter
+PARTITION_FUNCTION = getRandClassFunc(MAX_CLASS)

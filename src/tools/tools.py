@@ -29,9 +29,7 @@ def predictResult(data ,model):
     y = mapv(getValue("sign"),data)
     x = mapv(getValue("param"),data)
     p_label, p_acc, p_val = predict(y,x,model)
-    return{"label" : p_label,
-           "acc" : p_acc[0],
-           "val" : p_val}
+    return p_label
 
 def loadModel(name):
     with cd(MODEL_PATH):

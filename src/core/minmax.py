@@ -29,25 +29,18 @@ def getMinMaxModels(pos,neg,nameFunc,trainFunc):
             )
     return models
 
-def minMaxLayer(f,m):
-    result = []
-    for key in m:
-        label = m[key]["label"]
-        if len(result) == 0:
-            result = label
-        else:
-            result = mapv(f,result,label)
-    return {"label" : result}
+def minMaxPredictResult(test_set,models):
+    length = len(test_set)
+    result = sequence(length,constant(-1))
+    for p in models:
+        t = sequence(length,constant(1))
+        for n in models[p]:
+            k = predictResult(test_set,models[p][n])
+            t = mapv(min,t,k)
+        result = mapv(max,t,result)
 
-def equal(x,y):
-    return float(x) * float(y) > 0
+    return compareResult(result,mapv(getValue("sign"),test_set))
 
-def minMaxPredictResult(test,models):
-    result = mapValue(partial(mapValue,partial(predictResult,test)),models)
-    result = mapValue(partial(minMaxLayer,min),result)
-    result = minMaxLayer(max,result)
-    result = compareResult(result["label"],mapv(getValue("sign"),test))
-    return result
 
 def runMinMaxTest():
     data = read_data(TRAIN_DATA_SET)
