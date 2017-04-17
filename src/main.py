@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # parse_data(TRAIN_DATA_SET)
     # parse_data(TEST_DATA_SET)
     # res = runBruteTest()
-    # res = runMinMaxTest()
-    res = runMultiProcessMinMaxTest()
+    res = runMinMaxTest()
+    # res = runMultiProcessMinMaxTest()
     if res != None:
-        print(res["acc"])
+        print(res)

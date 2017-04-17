@@ -4,14 +4,6 @@ from utils.util import *
 from random import randint
 from tools.readData import read_data
 
-def metaNameFunc(name,suffix):
-    def metaNameFunction(i,j = None):
-        if j != None:
-            return name + '[' + str(i) + ']-[' + str(j) + '].' + suffix
-        else:
-            return name + '[' + str(i) + '].' + suffix
-    return metaNameFunction
-
 def partitionData(data,partitionFunc):
     # partition data set by sign
     m = partition(data,getValue("sign"))
@@ -54,9 +46,7 @@ def minMaxPredictResult(test,models):
     result = mapValue(partial(mapValue,partial(predictResult,test)),models)
     result = mapValue(partial(minMaxLayer,min),result)
     result = minMaxLayer(max,result)
-    acc = reduce(add,
-                 map(equal,result["label"],map(getValue("sign"),test)))
-    result.update({"acc": acc * 100 / len(test)})
+    result = compareResult(result["label"],mapv(getValue("sign"),test))
     return result
 
 def runMinMaxTest():
@@ -64,7 +54,7 @@ def runMinMaxTest():
     test = read_data(TEST_DATA_SET)
 
     print('Begin to get min-max model...')
-    pos,neg = partitionData(data,getRandClass)
+    pos,neg = partitionData(data,PARTITION_FUNCTION)
     models = getMinMaxModels(pos,
                              neg,
                              metaNameFunc('MinMax','model'),

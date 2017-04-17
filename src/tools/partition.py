@@ -1,7 +1,10 @@
 from utils.util import *
+from random import randint
 
-def getRandClass(item):
-    return randint(1,MAX_CLASS) - 1
+def getRandClassFunc(max_class):
+    def getRandClass(item):
+        return randint(1,max_class) - 1
+    return getRandClass
 
 def getFirstLetter(item):
     return item["label"][0][0]
