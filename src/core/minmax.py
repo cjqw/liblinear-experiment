@@ -41,9 +41,9 @@ def minMaxPredictResult(test_set,models):
 
 
 def runMinMaxTest():
+    train_timer = timer.start("train")
     data = IO.read_data(TRAIN_DATA_SET)
     test = IO.read_data(TEST_DATA_SET)
-
     print('Begin to get min-max model...')
     pos,neg = partitionData(data,PARTITION_FUNCTION)
     models = getMinMaxModels(pos,
@@ -51,4 +51,8 @@ def runMinMaxTest():
                              metaNameFunc('MinMax','model'),
                              bruteTrainFunc)
     print('Begin to test min-max algorithm...')
-    return minMaxPredictResult(test,models)
+    timer.end(train_timer)
+    test_timer = timer.start("test")
+    result =  minMaxPredictResult(test,models)
+    timer.end(test_timer)
+    return result

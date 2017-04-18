@@ -2,12 +2,17 @@
 
 from tools.parseData import parse_data
 from settings import *
+from timer.core import Timer
 
 def parseData():
     parse_data(TRAIN_DATA_SET)
     parse_data(TEST_DATA_SET)
 
+timer = Timer("total","train","test")
+
 if __name__ == '__main__':
+    total_timer = timer.start("total")
+
     if ALGORITHM == BRUTE_ALGORITHM:
         from core.brute import runBruteTest
         res = runBruteTest()
@@ -19,3 +24,6 @@ if __name__ == '__main__':
         res = runMultiProcessMinMaxTest()
     if res != None:
         print(res)
+
+    timer.end(total_timer)
+    timer.output()
