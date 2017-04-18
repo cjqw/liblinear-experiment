@@ -10,9 +10,9 @@ def parseData():
 
 timer = Timer("total","train","test")
 
-if __name__ == '__main__':
+def run():
+    global timer
     total_timer = timer.start("total")
-
     if ALGORITHM == BRUTE_ALGORITHM:
         from core.brute import runBruteTest
         res = runBruteTest()
@@ -26,4 +26,7 @@ if __name__ == '__main__':
         print(res)
 
     timer.end(total_timer)
+
+if __name__ == '__main__':
+    run()
     timer.output()

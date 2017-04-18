@@ -41,6 +41,7 @@ def minMaxPredictResult(test_set,models):
 
 
 def runMinMaxTest():
+    global timer
     train_timer = timer.start("train")
     data = IO.read_data(TRAIN_DATA_SET)
     test = IO.read_data(TEST_DATA_SET)
@@ -50,8 +51,8 @@ def runMinMaxTest():
                              neg,
                              metaNameFunc('MinMax','model'),
                              bruteTrainFunc)
-    print('Begin to test min-max algorithm...')
     timer.end(train_timer)
+    print('Begin to test min-max algorithm...')
     test_timer = timer.start("test")
     result =  minMaxPredictResult(test,models)
     timer.end(test_timer)
