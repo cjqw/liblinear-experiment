@@ -26,23 +26,35 @@ def predictResult(data ,model):
     y = mapv(getValue("sign"),data)
     x = mapv(getValue("param"),data)
     p_label, p_acc, p_val = predict(y,x,model)
-    return p_label
+    return mapv(lambda x:x[0],p_val)
 
-def compareResult(answer,predict):
-    res = [0,0,0,0]
+def update(item,predict,answer):
+    # th,fp,tp,fn,tn = item
+    if predict > item[0]:
+        k = (answer + 3) >> 1
+    else:
+        k = (7 - answer) >> 1
+    item[k] = item[k] + 1
+
+def calcROC(item):
+    th,fp,tp,fn,tn = item
+    tpr = tp/(tp+fn)
+    fpr = fp/(fp+tn)
+    return [th,tpr,fpr]
+
+def compareResult(predict,answer):
+    thresholds = [-8,-4,-2,-1,-0.5,0,0.5,1,2,4,8]
+    thresholds = mapv(lambda x: [x,0,0,0,0],thresholds)
+
     for i in range(0,len(answer)):
-        k = int(answer[i] + 1.5 + predict[i]/2)
-        res[k] = res[k] + 1
-    result = {
-        'TP': res[3],
-        'FP': res[1],
-        'FN': res[2],
-        'TN': res[0]
+        for items in thresholds :
+            update(items,predict[i],answer[i])
+
+    th,fp,tp,fn,tn = thresholds[5]
+    r = tp/(tp + fn)
+    p = tp/(tp + fp)
+    return {
+        "acc": ((tp + tn)*100)/len(answer),
+        'f1': (2*r*p)/(r+p),
+        'ROC': mapv(calcROC,thresholds)
     }
-    r = result['TP']/(result['TP'] + result['FN'])
-    p = result['TP']/(result['TP'] + result['FP'])
-    result.update({
-        "acc": ((res[0] + res[3])*100)/len(answer),
-        'f1': (2*r*p)/(r+p)
-    })
-    return result

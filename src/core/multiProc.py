@@ -47,8 +47,8 @@ def multiProcessGetResult():
     return compareResult(result,mapv(getValue("sign"),test_set))
 
 
-def runMultiProcessMinMaxTest():
-    global test_set,pos,neg,models,timer
+def runMultiProcessMinMaxTest(timer):
+    global test_set,pos,neg,models
     train_timer = timer.start("train")
     data = IO.read_data(TRAIN_DATA_SET)
     print('Begin to get multi-process min-max model...')

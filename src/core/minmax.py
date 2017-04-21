@@ -40,8 +40,7 @@ def minMaxPredictResult(test_set,models):
     return compareResult(result,mapv(getValue("sign"),test_set))
 
 
-def runMinMaxTest():
-    global timer
+def runMinMaxTest(timer):
     train_timer = timer.start("train")
     data = IO.read_data(TRAIN_DATA_SET)
     test = IO.read_data(TEST_DATA_SET)

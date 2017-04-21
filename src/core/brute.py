@@ -1,12 +1,11 @@
 from tools.tools import *
 from utils.util import *
 from tools.dataIO import read_data
+from tools.tools import *
+from utils.util import *
 from timer.core import Timer
 
-
-
-def runBruteTest():
-    global timer
+def runBruteTest(timer):
     train_timer = timer.start("train")
     data_set = read_data(TRAIN_DATA_SET)
     test_set = read_data(TEST_DATA_SET)

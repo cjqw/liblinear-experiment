@@ -3,6 +3,9 @@
 from tools.parseData import parse_data
 from settings import *
 from timer.core import Timer
+from core.brute import runBruteTest
+from core.minmax import runMinMaxTest
+from core.multiProc import runMultiProcessMinMaxTest
 
 def parseData():
     parse_data(TRAIN_DATA_SET)
@@ -10,23 +13,23 @@ def parseData():
 
 timer = Timer("total","train","test")
 
-def run():
-    global timer
+def run(timer):
     total_timer = timer.start("total")
+
     if ALGORITHM == BRUTE_ALGORITHM:
-        from core.brute import runBruteTest
-        res = runBruteTest()
+        res = runBruteTest(timer)
+
     if ALGORITHM == MIN_MAX_ALGORITHM:
-        from core.minmax import runMinMaxTest
-        res = runMinMaxTest()
+        res = runMinMaxTest(timer)
+
     if ALGORITHM == PARALLELIZED_MIN_MAX:
-        from core.multiProc import runMultiProcessMinMaxTest
-        res = runMultiProcessMinMaxTest()
+        res = runMultiProcessMinMaxTest(timer)
+
     if res != None:
         print(res)
 
     timer.end(total_timer)
 
 if __name__ == '__main__':
-    run()
+    run(timer)
     timer.output()
