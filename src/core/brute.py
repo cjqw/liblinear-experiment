@@ -2,6 +2,7 @@ from tools.tools import *
 from utils.util import *
 from tools.dataIO import read_data
 from tools.tools import *
+from tools.draw import *
 from utils.util import *
 from timer.core import Timer
 
@@ -13,10 +14,10 @@ def runBruteTest(timer):
     m = getModel(data_set,'Brute.model')
     timer.end(train_timer)
 
-    print("Begin to test_set brute algorithm...")
+    print("Begin to test brute algorithm...")
     test_timer = timer.start("test")
     result = predictResult(test_set, m)
     result = compareResult(result,mapv(getValue("sign"),test_set))
     timer.end(test_timer)
-
+    drawROC(result['ROC'],MODEL_NAME)
     return result

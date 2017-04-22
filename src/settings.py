@@ -22,7 +22,8 @@ MAX_CLASS = 3
 MEMORIZE = False
 
 # which partition function to use
-PARTITION_FUNCTION = getRandClassFunc(MAX_CLASS)
+# PARTITION_FUNCTION = getRandClassFunc(MAX_CLASS)
+PARTITION_FUNCTION = getFirstLetter
 
 # which algorithm to use
 # 1: brute linear svm classifier
@@ -33,4 +34,14 @@ BRUTE_ALGORITHM = 1
 MIN_MAX_ALGORITHM = 2
 PARALLELIZED_MIN_MAX = 3
 
-ALGORITHM = MIN_MAX_ALGORITHM
+ALGORITHM = PARALLELIZED_MIN_MAX
+
+# define label name in ROC graph
+
+if ALGORITHM == BRUTE_ALGORITHM:
+    MODEL_NAME = "Brute Algorithm"
+else:
+    if PARTITION_FUNCTION == getRandClassFunc(MAX_CLASS):
+        MODEL_NAME = "Random Min-Max"
+    else:
+        MODEL_NAME = "Labeled Min-Max"

@@ -1,4 +1,5 @@
 from tools.tools import *
+from tools.draw import *
 from utils.util import *
 from core.minmax import *
 from multiprocessing import Pool
@@ -66,5 +67,5 @@ def runMultiProcessMinMaxTest(timer):
     test_set = IO.read_data(TEST_DATA_SET)
     result = multiProcessGetResult()
     timer.end(test_timer)
-
+    drawROC(result['ROC'],MODEL_NAME)
     return result
