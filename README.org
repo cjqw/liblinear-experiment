@@ -15,7 +15,7 @@ partition and label-based partition.
 - [x] Partition data by labels
 - [x] Measure the time cost in different solution
 - [x] calculate f1 value
-- draw ROC graph
+- [x] draw ROC graph
 - [x] using dump/load in data file IO
 - [x] Avoid reading data file for multiple times
 - use DBMS to manage data
