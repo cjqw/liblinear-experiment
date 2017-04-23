@@ -16,14 +16,17 @@ TRAIN_DATA = 0
 
 # Maximum class when training Min-Max models with
 # randomized partition function
-MAX_CLASS = 3
+MAX_CLASS = 4
 
 # Whether trust the post models or not
 MEMORIZE = False
 
 # which partition function to use
-# PARTITION_FUNCTION = getRandClassFunc(MAX_CLASS)
-PARTITION_FUNCTION = getFirstLetter
+PARTITION_ALGORITHM = "Get First Two Letter"
+if PARTITION_ALGORITHM == "Random Function":
+    PARTITION_FUNCTION = getRandClassFunc(MAX_CLASS)
+else:
+    PARTITION_FUNCTION = getFirstTwoLetter
 
 # which algorithm to use
 # 1: brute linear svm classifier
@@ -41,7 +44,7 @@ ALGORITHM = PARALLELIZED_MIN_MAX
 if ALGORITHM == BRUTE_ALGORITHM:
     MODEL_NAME = "Brute Algorithm"
 else:
-    if PARTITION_FUNCTION == getRandClassFunc(MAX_CLASS):
+    if PARTITION_ALGORITHM == "Random Function":
         MODEL_NAME = "Random Min-Max"
     else:
         MODEL_NAME = "Labeled Min-Max"

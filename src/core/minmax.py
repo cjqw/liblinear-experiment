@@ -3,7 +3,6 @@ from tools.partition import *
 from utils.util import *
 from random import randint
 import tools.dataIO as IO
-from tools.draw import *
 
 def partitionData(data,partitionFunc):
     m = partition(data,getValue("sign"))
@@ -56,5 +55,5 @@ def runMinMaxTest(timer):
     test_timer = timer.start("test")
     result =  minMaxPredictResult(test,models)
     timer.end(test_timer)
-    drawROC(result['ROC'],MODEL_NAME)
+    IO.dump_data(result['ROC'],MODEL_NAME)
     return result

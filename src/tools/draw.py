@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from utils.util import *
 import matplotlib.pyplot as plt
 
