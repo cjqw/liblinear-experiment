@@ -16,7 +16,7 @@ TRAIN_DATA = 0
 
 # Maximum class when training Min-Max models with
 # randomized partition function
-MAX_CLASS = 4
+MAX_CLASS = 5
 
 # Whether trust the post models or not
 MEMORIZE = False
@@ -37,7 +37,7 @@ BRUTE_ALGORITHM = 1
 MIN_MAX_ALGORITHM = 2
 PARALLELIZED_MIN_MAX = 3
 
-ALGORITHM = BRUTE_ALGORITHM
+ALGORITHM = MIN_MAX_ALGORITHM
 
 # define label name in ROC graph
 
