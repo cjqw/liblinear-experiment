@@ -11,9 +11,19 @@ def metaNameFunc(name,suffix):
             return name + '[' + str(i) + '].' + suffix
     return metaNameFunction
 
+def fix(cmd,y):
+    positive,negative = 0,0
+    for sign in y:
+        if sign > 0: positive += 1
+        else: negative += 1
+    cmd = cmd + " -w1 " + str(negative)
+    cmd = cmd + " -w-1 " + str(positive)
+    return cmd
+
 def getModel(data,name = "MODEL",cmd = "-c 4",mem = MEMORIZE):
     y = mapv(getValue("sign"),data)
     x = mapv(getValue("param"),data)
+    cmd = fix(cmd,y)
     model = None
     if mem:
         model = IO.loadModel(name)
