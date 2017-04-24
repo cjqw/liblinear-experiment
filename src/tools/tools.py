@@ -29,7 +29,6 @@ def predictResult(data ,model):
     return mapv(lambda x:x[0],p_val)
 
 def update(item,predict,answer):
-    # th,fp,tp,fn,tn = item
     if predict > item[0]:
         k = (answer + 3) >> 1
     else:
