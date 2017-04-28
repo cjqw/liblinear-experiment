@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.3.11)  26 APR 2017 01:30
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.3.11)  28 APR 2017 09:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -494,33 +494,39 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout4 = `report.toc'.
 
 
-Overfull \hbox (55.81342pt too wide) in paragraph at lines 40--51
+[1
+
+]
+Overfull \hbox (31.11469pt too wide) in paragraph at lines 58--62
+[]\T1/lmr/m/n/10.95 To start with, set AL-GO-RITHM to BRUTE_$[]$, MIN$[]$$[]$
+ []
+
+
+Overfull \hbox (53.07562pt too wide) in paragraph at lines 70--81
  [] 
  []
 
 File: figure_1.png Graphic file (type QTm)
-<use  "figure_1.png" > [1
-
-]
-Overfull \hbox (49.19695pt too wide) in paragraph at lines 68--78
+<use  "figure_1.png" > [2]
+Overfull \hbox (24.43802pt too wide) in paragraph at lines 98--108
  [] 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 84.
-[2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 84.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 114.
+[3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 114.
  (./report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 84.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 84.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 84.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 114.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 114.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 114.
  ) 
 Here is how much of TeX's memory you used:
- 10212 strings out of 493068
- 139580 string characters out of 6135636
+ 10224 strings out of 493068
+ 139703 string characters out of 6135636
  206021 words of memory out of 5000000
- 14023 multiletter control sequences out of 15000+600000
- 35142 words of font info for 53 fonts, out of 8000000 for 9000
+ 14032 multiletter control sequences out of 15000+600000
+ 48383 words of font info for 57 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
- 28i,7n,45p,223b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 28i,7n,45p,223b,326s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (2 pages).
+Output written on report.pdf (3 pages).
