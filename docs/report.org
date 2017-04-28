@@ -1,14 +1,40 @@
 #+TITLE: MPML REPORT
 #+AUTHOR: Qiu Wei
+#+OPTIONS: ^:{}
 
 #+BEGIN_abstract
 to be finished
 #+END_abstract
 
 
+* Min-max algorithm
+The min-max algorithm seperates the positive set and negative set into
+small parts. For example, the positive set is partitioned to n parts and
+the negative set to m parts, then build n*m svm models between these parts.
+...
+* Parallelization
+
 * Implementation
 The python version is implemented with MPI,the source code is partitioned into several
 parts via its functions. I will introduce the main structure of this project in the following.
+
+** usage
+To test a classifier, configure the algorithm in /settings.py/. If min-max net algorithm
+is used, specify the partition function in /settings.py/, then run this command:
+#+BEGIN_SRC c
+$ cd src/
+$ python3 main.py
+#+END_SRC
+In addition,if you want to run with the origin data, set PARSE_DATA = True so
+that the program will parse the origin data into .pickle files. The time of
+parsing do not count in total time in timer class as you only need to parse the
+data for just one time. Other advanced options can be found in the folloing part.
+
+When all the algorithm have been tested, you can draw the ROC graph by /drawroc.py/.
+Run this command to draw ROC graph and calc AUC value:
+#+BEGIN_SRC c
+$ python3 drawroc.py
+#+END_SRC
 
 ** structure
 All the source code can be found in src/ folder. src/core/ stores the main part of
@@ -16,21 +42,55 @@ brute liblinear, serialized min-max and paralleled min-max algorithm. src/data/ 
 the training data, testing data and all the template .pickle files. src/models/ stores
 all the svm models. src/tools/ stores many tool function for this project. src/timer/
 contains timer class. src/utils/ contains util functions. src/settings.py contains
-default settings. src/main.py is the main program. src/drawROC.py draw ROC graphs
+default settings. src/main.py is the main program. src/drawroc.py draw ROC graphs
 via the result file in src/data/ folder.
 
-** settings
+** settings.py
 The /settings.py/ file contains default settings of this project, containing default
 algorithm, partition function in min-max algorithm,some constant and some folder/file name.
 As there are no time to implement a parser, you must edit /settings.py/ to configure
 the algorithm.
 
-To start with, set ALGORITHM to BRUTE_ALGORITHM, MIN_MAX_ALGORITHM or PARALLELIZED_MIN_MAX
-to specify which kind of algorithm you want and set the value of PARTITION_ALGORITHM to choose
-partition function(labeled of randomed). If you want to use post models, set MEMORIZE = True.
-Other settings are seldom used and you can learn about their function by comments.
+To start with, set the value of ALGORITHM
+to specify which kind of algorithm you want and then set the value of PARTITION_ALGORITHM to choose
+partition function(labeled of randomed).
 
-** tools & utils
+If you want to use post models for debugging, set MEMORIZE = True.
+If you want to test the program in a smaller data set, set TRAIN_DATA to your desired item numbers
+greater than 0.
+If you want to patition the items into a different number of sets in random labeled min-max net algorithm,
+change the value of MAX_CLASS to the max number of sets.
+
+Other settings are seldom used and you can learn about their function by reading the source codes.
+
+** utils and tools
+The utils module comes from a repo in github, it mainly contains functional programming style
+util functions such as partition, mapValue and mapv. A cd class is also contained to
+ensure safe dictory switch.
+
+src/tools stores the tools specificly designed for this project. /partition.py/ contains
+partition functions used to partition data into different sets in min-max algorithm. /dataIO.py/
+implements the IO instruction with files. /parseData.py/ parses the origin data into a hash-map
+in python, and dump it to a .pickle file. The main program will use the .pickle file directly
+so this module will not be called in main program. /tools.py/ defines getModel, predictResult
+,compareResult and metaNameFunc which will be used in all the three algorithms.
+
+** drawroc.py
+/drawroc.py/ use matplotlib.pyplot module to draw the ROC graph.
+First it reads the result file of different algorithms, then call pyplot
+to draw the ROC graph. Also the AUC value of the result is also calculated
+and printed to the screen.
+** timer
+/timer.py/ uses time module to implement a multi-record timer. Different record
+are stored in a hash-map and distinguished by its name. The start and end method
+can start/end the timing a specific record. Also an add method is provided to
+add a value to a record.
+** core
+The core module contains the main part of the program.
+/brute.py/ use liblinear directly to solve the origin problem.
+/minmax.py/ defines the abstraction of min-max algorithm and implements
+the serialized version of this algorithm.
+/multiProc.py/ implements the parallelized version of min-max algorithm.
 
 * Trainning Result
 The trainning result is as following:
@@ -70,3 +130,4 @@ The time cost between serialized min-max and parallelized min-max is:
 
 Test environment is Ubuntu, 4 kernal.
 Python version is 3.5.
+* Analysis

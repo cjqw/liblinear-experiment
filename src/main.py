@@ -14,6 +14,9 @@ def parseData():
 timer = Timer("total","train","test")
 
 def run(timer):
+    if PARSE_DATA:
+        parseData()
+
     total_timer = timer.start("total")
 
     if ALGORITHM == BRUTE_ALGORITHM:

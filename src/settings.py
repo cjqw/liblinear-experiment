@@ -48,3 +48,7 @@ else:
         MODEL_NAME = "Random Min-Max"
     else:
         MODEL_NAME = "Labeled Min-Max"
+
+# set PARSE_DATA = True to parse the input data into .pickle files before modeling
+# the time of parsing data do not count in total time.
+PARSE_DATA = False

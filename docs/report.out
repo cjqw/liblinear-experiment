@@ -1,5 +1,9 @@
 \BOOKMARK [1][-]{section.1}{Implementation}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{structure}{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{settings}{section.1}% 3
-\BOOKMARK [2][-]{subsection.1.3}{tools\040&\040utils}{section.1}% 4
-\BOOKMARK [1][-]{section.2}{Trainning\040Result}{}% 5
+\BOOKMARK [2][-]{subsection.1.1}{usage}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{structure}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{settings.py}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{utils\040and\040tools}{section.1}% 5
+\BOOKMARK [2][-]{subsection.1.5}{drawroc.py}{section.1}% 6
+\BOOKMARK [2][-]{subsection.1.6}{timer}{section.1}% 7
+\BOOKMARK [2][-]{subsection.1.7}{core}{section.1}% 8
+\BOOKMARK [1][-]{section.2}{Trainning\040Result}{}% 9
