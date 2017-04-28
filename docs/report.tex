@@ -1,4 +1,4 @@
-% Created 2017-04-28 五 21:29
+% Created 2017-04-28 五 22:53
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -33,13 +33,22 @@ to be finished
 \end{abstract}
 
 
-\section{Implementation}
+\section{Min-max algorithm}
 \label{sec-1}
+The min-max algorithm seperates the positive set and negative set into
+small parts. For example, the positive set is partitioned to n parts and
+the negative set to m parts, then build n*m svm models between these parts.
+\ldots{}
+\section{Parallelization}
+\label{sec-2}
+
+\section{Implementation}
+\label{sec-3}
 The python version is implemented with MPI,the source code is partitioned into several
 parts via its functions. I will introduce the main structure of this project in the following.
 
 \subsection{usage}
-\label{sec-1-1}
+\label{sec-3-1}
 To test a classifier, configure the algorithm in \emph{settings.py}. If min-max net algorithm
 is used, specify the partition function in \emph{settings.py}, then run this command:
 \begin{verbatim}
@@ -58,7 +67,7 @@ $ python3 drawroc.py
 \end{verbatim}
 
 \subsection{structure}
-\label{sec-1-2}
+\label{sec-3-2}
 All the source code can be found in src/ folder. src/core/ stores the main part of
 brute liblinear, serialized min-max and paralleled min-max algorithm. src/data/ stores
 the training data, testing data and all the template .pickle files. src/models/ stores
@@ -68,7 +77,7 @@ default settings. src/main.py is the main program. src/drawroc.py draw ROC graph
 via the result file in src/data/ folder.
 
 \subsection{settings.py}
-\label{sec-1-3}
+\label{sec-3-3}
 The \emph{settings.py} file contains default settings of this project, containing default
 algorithm, partition function in min-max algorithm,some constant and some folder/file name.
 As there are no time to implement a parser, you must edit \emph{settings.py} to configure
@@ -87,7 +96,7 @@ change the value of MAX\_CLASS to the max number of sets.
 Other settings are seldom used and you can learn about their function by reading the source codes.
 
 \subsection{utils and tools}
-\label{sec-1-4}
+\label{sec-3-4}
 The utils module comes from a repo in github, it mainly contains functional programming style
 util functions such as partition, mapValue and mapv. A cd class is also contained to
 ensure safe dictory switch.
@@ -100,23 +109,27 @@ so this module will not be called in main program. \emph{tools.py} defines getMo
 ,compareResult and metaNameFunc which will be used in all the three algorithms.
 
 \subsection{drawroc.py}
-\label{sec-1-5}
+\label{sec-3-5}
 \emph{drawroc.py} use matplotlib.pyplot module to draw the ROC graph.
 First it reads the result file of different algorithms, then call pyplot
 to draw the ROC graph. Also the AUC value of the result is also calculated
 and printed to the screen.
 \subsection{timer}
-\label{sec-1-6}
+\label{sec-3-6}
 \emph{timer.py} uses time module to implement a multi-record timer. Different record
 are stored in a hash-map and distinguished by its name. The start and end method
 can start/end the timing a specific record. Also an add method is provided to
 add a value to a record.
 \subsection{core}
-\label{sec-1-7}
+\label{sec-3-7}
 The core module contains the main part of the program.
+\emph{brute.py} use liblinear directly to solve the origin problem.
+\emph{minmax.py} defines the abstraction of min-max algorithm and implements
+the serialized version of this algorithm.
+\emph{multiProc.py} implements the parallelized version of min-max algorithm.
 
 \section{Trainning Result}
-\label{sec-2}
+\label{sec-4}
 The trainning result is as following:
 \begin{center}
 \begin{tabular}{rllrlrr}
@@ -162,5 +175,7 @@ No. & Parallelized? & Algorithm & Trainning time & Testing time & Total time\\
 
 Test environment is Ubuntu, 4 kernal.
 Python version is 3.5.
+\section{Analysis}
+\label{sec-5}
 % Emacs 24.5.1 (Org mode 8.2.10)
 \end{document}
