@@ -1,5 +1,5 @@
 #+TITLE: MPML REPORT
-#+AUTHOR: Qiu Wei
+#+AUTHOR: Qiu Wei, Wang Ruiji
 #+OPTIONS: ^:{}
 
 #+BEGIN_abstract
@@ -8,11 +8,52 @@ to be finished
 
 
 * Min-max algorithm
-The min-max algorithm seperates the positive set and negative set into
-small parts. For example, the positive set is partitioned to n parts and
-the negative set to m parts, then build n*m svm models between these parts.
-...
+The min-max algorithm partitions the positive set and negative set into
+small parts, for example, the positive set is partitioned to n parts and
+the negative set to m parts. Then build n*m svm models between these parts.
+For each input, feed it to all the models, the result is:
+
+$$ predict[i][j], i \in positive label, j \in negative label$$
+
+Then the predicted class of this input is:
+
+$$ max(min(predict[i][j], j \in negative label), i \in positive label)$$
+
+This algorithm can improve the accuracy of classifier and avoid overfitting problem.
+However, the penalty is that min-max algorithm need more time to train models and predict
+the result. Another advantage is that it can be fully parallelized easily, and each single model
+involves smaller data set. So it may even speed up the training phase in some cases.
+
+The most important problem is which partition function to choose. Usually a partition function
+should partition the data into proper number of parts, and have some structural reasons which
+seperate similar data into the same set. In this experiment I choose two different partition function
+to compare, the first one is partitioning randomly and the second one is partition by the first two
+letter in the input's first label.
+
 * Parallelization
+Because of the GIL in python interpreter, multi-thread model do not help in this experiment.
+The trainning phase and the testing phase is parallelized using multiprocessing module.
+In trainning phase, each model is trained by a single process. In testing phase, batch predicting
+is used and each process calculate the result of exactly one model.
+
+The multi-process model is much safer than multi-thread model, in this case I just need to
+join child process and get the result. However, the efficiency of multi-process is even
+worse than serialized version in the beginning.
+
+The first problem is fork() function will copy all the state of current program, which
+copied the training data for multiple times. To deal with this problem, I write each part
+of data set into a single file and read them in each child process so that I can release
+the space of data set before fork().
+
+Another problem is the big cost of frequent context switch. So I use Pool.map method of
+multiprocessing module which runs exactly 4 processes in my 4-kernal machine. It also
+reduces the space cost of the dead processes.
+
+With these technich, the parallelized min-max algorithm is more than 2 times faster
+compare with the serialized version.
+The difference between multi-process and multi-thread is the big cost of message exchanging
+which involves data copy in multi-process. For further optimization, using c to write the code
+or call python in c code would be a good direction.
 
 * Implementation
 The python version is implemented with MPI,the source code is partitioned into several
@@ -92,6 +133,9 @@ The core module contains the main part of the program.
 the serialized version of this algorithm.
 /multiProc.py/ implements the parallelized version of min-max algorithm.
 
+All the algorithms contains a training phase and a testing phase, the time of
+the two phases is rbecorded by the timer. The total time contains the time
+cost of two phases and loading data.
 * Trainning Result
 The trainning result is as following:
 |-----+-----------------+-------------+--------+-----------+----------+-----------|
