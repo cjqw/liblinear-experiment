@@ -40,7 +40,7 @@ The multi-process model is much safer than multi-thread model, in this case I ju
 join child process and get the result. However, the efficiency of multi-process is even
 worse than serialized version in the beginning.
 
-The first problem is fork() function will copy all the state of current program, which
+The first problem is the fork() function will copy all the state of current program, which
 copied the training data for multiple times. To deal with this problem, I write each part
 of data set into a single file and read them in each child process so that I can release
 the space of data set before fork().
@@ -134,7 +134,7 @@ the serialized version of this algorithm.
 /multiProc.py/ implements the parallelized version of min-max algorithm.
 
 All the algorithms contains a training phase and a testing phase, the time of
-the two phases is rbecorded by the timer. The total time contains the time
+the two phases is recorded by the timer. The total time contains the time
 cost of two phases and loading data.
 * Trainning Result
 The trainning result is as following:

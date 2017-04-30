@@ -8,13 +8,16 @@ labels = ["Brute Algorithm",
           "Labeled Min-Max"]
 
 def calcAUC(X,Y,name):
+    X = [1] + X + [0]
+    Y = [1] + Y + [0]
+    X = mapv(lambda x: 1-x,X)
     print(name,":")
     px,py = 0,0
     s = 0
     for (x,y) in zip(X,Y):
         s = s + px * y - py * x
         px,py = x,y
-    print(s/2)
+    print(abs(s)/2)
 
 for label in labels:
     dots = IO.load_data(label)
