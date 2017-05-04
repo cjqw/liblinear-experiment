@@ -3,6 +3,7 @@ from utils.util import *
 from core.minmax import *
 from multiprocessing import Pool
 import tools.dataIO as IO
+import logging
 
 MPModelName = metaNameFunc('MultiProcessMinMax','model')
 MPPOSName = metaNameFunc('MultiProcessMinMax','POS')
@@ -51,7 +52,7 @@ def runMultiProcessMinMaxTest(timer):
     global test_set,pos,neg,models
     train_timer = timer.start("train")
     data = IO.read_data(TRAIN_DATA_SET)
-    print('Begin to get multi-process min-max model...')
+    logging.info('Begin to get multi-process min-max model...')
     pos,neg = partitionData(data,PARTITION_FUNCTION)
     neg = IO.store2File(neg,MPNEGName)
     pos = IO.store2File(pos,MPPOSName)
@@ -61,7 +62,7 @@ def runMultiProcessMinMaxTest(timer):
                              multiProcessTrainFunc)
     timer.end(train_timer)
 
-    print('Begin to test multi-process min-max algorithm...')
+    logging.info('Begin to test multi-process min-max algorithm...')
     test_timer = timer.start("test")
     test_set = IO.read_data(TEST_DATA_SET)
     result = multiProcessGetResult()

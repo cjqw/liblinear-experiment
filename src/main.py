@@ -6,6 +6,7 @@ from timer.core import Timer
 from core.brute import runBruteTest
 from core.minmax import runMinMaxTest
 from core.multiProc import runMultiProcessMinMaxTest
+import logging
 
 def parseData():
     parse_data(TRAIN_DATA_SET)
@@ -34,5 +35,8 @@ def run(timer):
     timer.end(total_timer)
 
 if __name__ == '__main__':
+    logging.basicConfig(filename='result.log',level=logging.DEBUG,
+                        format='%(asctime)s %(message)s')
+    logging.info('Start...')
     run(timer)
     timer.output()

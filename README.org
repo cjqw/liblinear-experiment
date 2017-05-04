@@ -20,4 +20,4 @@ partition and label-based partition.
 - [x] Avoid reading data file for multiple times
 - use DBMS to manage data
 - [d] use queue to exchange data between processes
-- use logging module
+- [x] use logging module

@@ -3,6 +3,7 @@ from tools.partition import *
 from utils.util import *
 from random import randint
 import tools.dataIO as IO
+import logging
 
 def partitionData(data,partitionFunc):
     m = partition(data,getValue("sign"))
@@ -44,14 +45,14 @@ def runMinMaxTest(timer):
     train_timer = timer.start("train")
     data = IO.read_data(TRAIN_DATA_SET)
     test = IO.read_data(TEST_DATA_SET)
-    print('Begin to get min-max model...')
+    logging.info('Begin to get min-max model...')
     pos,neg = partitionData(data,PARTITION_FUNCTION)
     models = getMinMaxModels(pos,
                              neg,
                              metaNameFunc('MinMax','model'),
                              bruteTrainFunc)
     timer.end(train_timer)
-    print('Begin to test min-max algorithm...')
+    logging.info('Begin to test min-max algorithm...')
     test_timer = timer.start("test")
     result =  minMaxPredictResult(test,models)
     timer.end(test_timer)
